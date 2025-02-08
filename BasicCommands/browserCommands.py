@@ -13,6 +13,7 @@ driver = webdriver.Chrome()
 driver.get("https://google.com")
 
 """
+
 # verification by title
 expected_title = "Google"
 actual_title = driver.title
