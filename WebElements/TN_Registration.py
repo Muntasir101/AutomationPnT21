@@ -1,52 +1,67 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import json
 
-from faker import Faker
-fake = Faker()
+def registration_valid():
+    from faker import Faker
+    fake = Faker()
 
-driver = webdriver.Firefox()
+    unique_email = fake.email()
+    password = "123456"
 
-driver.get("https://tutorialsninja.com/demo/")
+    # Define the file path
+    file_path = 'valid_credentials.json'
 
-my_account = driver.find_element(By.CSS_SELECTOR, ".list-inline .dropdown .hidden-md")
-my_account.click()
+    data = {'email': unique_email,
+            "password": password}
 
-register = driver.find_element(By.LINK_TEXT, "Register")
-register.click()
+    # Write data to the JSON file
+    with open(file_path, 'w') as json_file:
+        json.dump(data, json_file, indent=4)
 
-first_name = driver.find_element(By.CSS_SELECTOR, "#input-firstname")
-first_name.send_keys(fake.name())
+    driver = webdriver.Firefox()
 
-last_name = driver.find_element(By.CSS_SELECTOR, "#input-lastname")
-last_name.send_keys(fake.name())
+    driver.get("https://tutorialsninja.com/demo/")
 
-email = driver.find_element(By.CSS_SELECTOR, "#input-email")
-#email.send_keys("smith12@nomail.com")
-email.send_keys(fake.email())
+    my_account = driver.find_element(By.CSS_SELECTOR, ".list-inline .dropdown .hidden-md")
+    my_account.click()
 
-telephone = driver.find_element(By.CSS_SELECTOR,"#input-telephone")
-telephone.send_keys("12345678")
+    register = driver.find_element(By.LINK_TEXT, "Register")
+    register.click()
 
-password = driver.find_element(By.CSS_SELECTOR,"#input-password")
-password.send_keys("123456")
+    first_name = driver.find_element(By.CSS_SELECTOR, "#input-firstname")
+    first_name.send_keys(fake.name())
 
-password_confirm = driver.find_element(By.CSS_SELECTOR,"#input-confirm")
-password_confirm.send_keys("123456")
+    last_name = driver.find_element(By.CSS_SELECTOR, "#input-lastname")
+    last_name.send_keys(fake.name())
 
-privacy_policy = driver.find_element(By.CSS_SELECTOR,"input[name='agree']")
-privacy_policy.click()
+    email = driver.find_element(By.CSS_SELECTOR, "#input-email")
+    # email.send_keys("smith12@nomail.com")
+    email.send_keys(unique_email)
 
-continue_btn = driver.find_element(By.CSS_SELECTOR,"input[value='Continue']")
-continue_btn.click()
+    telephone = driver.find_element(By.CSS_SELECTOR, "#input-telephone")
+    telephone.send_keys("12345678")
 
-# Validate account registration or not
-expected_success_message = "Your Account Has Been Created!"
-actual_success_message = driver.find_element(By.CSS_SELECTOR,"#content h1").text
-assert expected_success_message == actual_success_message, f"Registration failed !!"
+    password_input = driver.find_element(By.CSS_SELECTOR, "#input-password")
+    password_input.send_keys(password)
 
-print("Test registration Passed!")
+    password_confirm = driver.find_element(By.CSS_SELECTOR, "#input-confirm")
+    password_confirm.send_keys(password)
 
-driver.quit()
+    privacy_policy = driver.find_element(By.CSS_SELECTOR, "input[name='agree']")
+    privacy_policy.click()
+
+    continue_btn = driver.find_element(By.CSS_SELECTOR, "input[value='Continue']")
+    continue_btn.click()
+
+    # Validate account registration or not
+    expected_success_message = "Your Account Has Been Created!"
+    actual_success_message = driver.find_element(By.CSS_SELECTOR, "#content h1").text
+    assert expected_success_message == actual_success_message, f"Registration failed !!"
+
+    print("Test registration Passed!")
+
+    driver.quit()
 
 
 
