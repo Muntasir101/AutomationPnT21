@@ -7,6 +7,8 @@ def driver():
     # Setup: initialize WebDriver
     driver = webdriver.Firefox()
 
+    driver.get("https://tutorialsninja.com/demo/")
+
     # Yield driver to the test
     yield driver
 

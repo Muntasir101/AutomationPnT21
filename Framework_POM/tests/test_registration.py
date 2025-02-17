@@ -16,7 +16,6 @@ def test_registration_valid(driver):
     with open(file_path, 'w') as json_file:
         json.dump({'email': unique_email, 'password': password}, json_file, indent=4)
 
-    driver.get("https://tutorialsninja.com/demo/")
 
     home_page = HomePage(driver)
     home_page.navigate_to_registration()
