@@ -1,4 +1,6 @@
 import json
+import os
+
 from faker import Faker
 from Framework_POM.pages.page_home import HomePage
 from Framework_POM.pages.page_login import LoginPage
@@ -17,3 +19,8 @@ def test_login_valid(driver):
 
     login_page = LoginPage(driver)
     login_page.fill_login_form(email, password)
+
+    # Save screenshot after test
+    screenshot_path = os.path.join("screenshots", "test_login.png")
+    os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
+    driver.save_screenshot(screenshot_path)

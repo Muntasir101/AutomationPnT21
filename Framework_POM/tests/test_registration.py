@@ -1,4 +1,6 @@
 import json
+import os
+
 from faker import Faker
 from Framework_POM.pages.page_home import HomePage
 from Framework_POM.pages.page_registration import RegistrationPage
@@ -25,3 +27,8 @@ def test_registration_valid(driver):
 
     assert registration_page.get_success_message() == "Your Account Has Been Created!", "Registration failed !!"
     print("Test registration Passed!")
+
+    # Save screenshot after test
+    screenshot_path = os.path.join("screenshots", "test_login.png")
+    os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
+    driver.save_screenshot(screenshot_path)
